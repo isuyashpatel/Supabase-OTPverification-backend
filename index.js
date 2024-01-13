@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: [ 'http://localhost:3000','https://pixel-ui-beta.vercel.app/']
+  origin: [ 'http://localhost:3000','https://pixel-ui-beta.vercel.app']
 }));
 
 
