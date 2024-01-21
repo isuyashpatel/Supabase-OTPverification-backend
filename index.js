@@ -49,6 +49,7 @@ app.post("/login-otp", async (req, res) => {
 });
 
 app.post("/verify-login-otp", async (req, res) => {
+  const {email}=req.body
   if (validator.isEmail(email)) {
     try {
       const {email,token}=req.body;
