@@ -58,36 +58,36 @@ app.post("/verify-login-otp", async (req, res) => {
   }
 });
 
-app.get("/logout", async (req, res) => {
-  const { error } = await supabase.auth.signOut();
-});
+// app.get("/logout", async (req, res) => {
+//   const { error } = await supabase.auth.signOut();
+// });
 
-// API endpoint to fetch images based on a predefined query
-app.get("/api/images", async (req, res) => {
-  try {
-    const response = await axios.get(
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=yellow+flowers&image_type=photo`
-    );
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching images:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// // API endpoint to fetch images based on a predefined query
+// app.get("/api/images", async (req, res) => {
+//   try {
+//     const response = await axios.get(
+//       `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=yellow+flowers&image_type=photo`
+//     );
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("Error fetching images:", error.message);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
-app.get("/api/images/:item", async (req, res) => {
-  const { item } = req.params;
+// app.get("/api/images/:item", async (req, res) => {
+//   const { item } = req.params;
 
-  try {
-    const response = await axios.get(
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${item}&image_type=photo`
-    );
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching images:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//   try {
+//     const response = await axios.get(
+//       `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${item}&image_type=photo`
+//     );
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("Error fetching images:", error.message);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
