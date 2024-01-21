@@ -6,11 +6,20 @@ const { createClient } = require("@supabase/supabase-js");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://pixel-ui-beta.vercel.app"],
-  })
-);
+const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 const supabase = createClient(process.env.SUPABASE_URL, process.env.KEY);
 
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
@@ -20,7 +29,6 @@ app.use(express.json());
 
 app.post("/login-otp", async (req, res) => {
   const {email}=req.body
-  console.log(email);
   try {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
@@ -29,7 +37,7 @@ app.post("/login-otp", async (req, res) => {
         shouldCreateUser: true,
       },
     });
-    res.status(200).json(data)
+    res.status(200).json({status:200})
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -37,14 +45,13 @@ app.post("/login-otp", async (req, res) => {
 
 app.post("/verify-login-otp", async (req, res) => {
   try {
-    const {email,token}=req.body
-    console.log(email,token);
-    const data = await supabase.auth.verifyOtp({
+    const {email,token}=req.body;
+   await supabase.auth.verifyOtp({
       email,
       token: token,
       type: "email",
     });
-    res.status(200).json(data)
+    res.status(200).json({status:200})
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });
