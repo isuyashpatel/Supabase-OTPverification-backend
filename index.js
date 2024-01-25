@@ -28,9 +28,9 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.KEY);
 app.use(express.json());
 
 
-app.get("/login-otp", async (req, res) => {
-  console.log('called',req.body);
-  const {email}=req.body.body
+app.get("/login-otp/:email", async (req, res) => {
+  console.log(req.params);
+  const {email}=req.params
   
   if (validator.isEmail(email)) {
     try {
@@ -50,9 +50,10 @@ app.get("/login-otp", async (req, res) => {
  
 });
 
-app.get("/verify-login-otp", async (req, res) => {
-  console.log('called');
-  const {email,token}=req.body.body
+app.get("/verify-login-otp/:email/:token", async (req, res) => {
+  console.log(req.params);
+  const {email,token}=req.params;
+  
   if (validator.isEmail(email)) {
     try {
     const {error}= await supabase.auth.verifyOtp({
