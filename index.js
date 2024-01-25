@@ -28,8 +28,10 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.KEY);
 app.use(express.json());
 
 
-app.post("/login-otp", async (req, res) => {
-  const {email}=req.body
+app.get("/login-otp", async (req, res) => {
+  console.log('called',req.body);
+  const {email}=req.body.body
+  
   if (validator.isEmail(email)) {
     try {
       await supabase.auth.signInWithOtp({
@@ -38,7 +40,7 @@ app.post("/login-otp", async (req, res) => {
           shouldCreateUser: true,
         },
       });
-      res.status(200).json({status:200})
+      res.status(200).json({status:9999})
     } catch (error) {
       res.status(500).json({ status:500 });
     }
@@ -48,17 +50,17 @@ app.post("/login-otp", async (req, res) => {
  
 });
 
-app.post("/verify-login-otp", async (req, res) => {
-  const {email}=req.body
+app.get("/verify-login-otp", async (req, res) => {
+  console.log('called');
+  const {email,token}=req.body.body
   if (validator.isEmail(email)) {
     try {
-      const {email,token}=req.body;
-     await supabase.auth.verifyOtp({
+    const {error}= await supabase.auth.verifyOtp({
         email,
         token: token,
         type: "email",
       });
-      res.status(200).json({status:200})
+      res.status(200).json(error===null)
     } catch (error) {
       console.log(error);
       res.status(500).json({ status:500 });
